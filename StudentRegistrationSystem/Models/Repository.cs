@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace Assignment1.Models
+namespace StudentRegistrationSystem.Models
 {
     public sealed class Repository
     {

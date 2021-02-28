@@ -1,4 +1,4 @@
-﻿namespace Assignment1.Models.ViewModels
+﻿namespace StudentRegistrationSystem.Models.ViewModels
 {
     public class RegFormViewModel : RepoViewModel
     {

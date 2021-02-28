@@ -1,9 +1,9 @@
-﻿using Assignment1.Models;
-using Assignment1.Models.ViewModels;
+﻿using StudentRegistrationSystem.Models;
+using StudentRegistrationSystem.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Assignment1.Controllers
+namespace StudentRegistrationSystem.Controllers
 {
     public class HomeController : Controller
     {
