@@ -1,0 +1,49 @@
+﻿@model RepoWithOneArgViewModel
+
+<div class="p-3">
+    @if (Model.Repo.Students != null && Model.Repo.Students.Count != 0)
+    {
+        <h3>Listing all students</h3>
+        <form asp-action="Student_details" method="get" id="studentList">
+            <input type="hidden" asp-for="Data" id="selectedStudent" />
+            <table>
+                <thead class="text-center">
+                    <tr>
+                        <th class="pl-1 pr-1">SID</th>
+                        <th class="pl-1 pr-1">First Name</th>
+                        <th class="pl-1 pr-1">Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Repo.Students)
+                    {
+                        <tr>
+                            <td class="pl-1 pr-1"><a class="badge badge-light" href="#" onclick="submit(this)">@student.StudentNumber</a></td>
+                            <td class="pl-1 pr-1">@student.FirstName</td>
+                            <td class="pl-1 pr-1">@student.LastName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    } 
+    else
+    {
+        <div class="text-danger font-weight-bold">
+            There are no students yet
+        </div>
+    }
+    <div>
+        <a class="btn btn-secondary" asp-action="Index">
+            Return to homepage
+        </a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function submit(sender) {
+        $("#selectedStudent").val(sender.innerHTML);
+        console.log("SID is: " + $("#selectedStudent").val());
+        $("#studentList").submit();
+    }
+</script>

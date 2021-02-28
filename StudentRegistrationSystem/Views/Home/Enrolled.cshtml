@@ -1,0 +1,10 @@
+﻿@model RegResponse
+
+<div class="p-3">
+    <div>
+        @Model.FirstName&#44; @Model.LastName&#44; SID &#35;@Model.StudentNumber is now enrolled in @Model.SelectedCourseCode&#46;
+    </div>
+    <a class="btn btn-secondary" asp-action="Index">
+        Return to homepage
+    </a>
+</div>

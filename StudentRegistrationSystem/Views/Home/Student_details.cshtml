@@ -1,0 +1,95 @@
+﻿@model StudentDetailViewModel
+
+<style>
+    .hiddenMsg { display: none; }
+
+    .course:hover + .hiddenMsg {
+        display: block;
+        color: red;
+        font-size: 75%;
+    }
+</style>
+
+<div class="p-3">
+    @if (Model != null)
+    {
+        <h3>@Model.Student.FirstName, @Model.Student.LastName's profile</h3>
+        @if (Model.Student.Courses.Count != 0)
+        {
+            <div class="bg-danger text-white text-center p-2" style="display:none;" id="dropConfirmation">
+                <div>Confirm Dropping#&nbsp;<span class="font-weight-bold" id="displaySelectedCC"></span>?</div>
+                <div>
+                    <button class="btn btn-danger btn-outline-light" onclick="dropCourse()">Yes, Drop</button>
+                    <button class="btn btn-primary" onclick="abort()">No</button>
+                </div>
+            </div>
+            <h5>Enrolled Courses:</h5>
+            <form asp-action="Student_details" method="post" id="courseList">
+                <input type="hidden" asp-for="CourseCodeDropping" id="selectedCourseCode" />
+                <input type="hidden" asp-for="Student.StudentNumber" value="@Model.Student.StudentNumber" />
+                <table>
+                    <thead class="text-center">
+                        <tr>
+                            <th class="pl-1 pr-1">
+                                Course Code
+                                <div class="small">Hover on Course Code to drop a course</div>
+                            </th>
+                            <th class="pl-1 pr-1">Course Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var course in Model.Student.Courses)
+                        {
+                            <tr>
+                                <td class="pl-1 pr-1">
+                                    <a class="badge badge-light course" href="#" onclick="courseSelect(this)">@course.CourseCode</a>
+                                    <div class="hiddenMsg">Press to drop @course.CourseCode</div>
+                                </td>
+                                <td class="pl-1 pr-1">@course.CourseName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+            <script type="text/javascript">
+                function courseSelect(sender) {
+                    // assign the selected course code as a passing parameter
+                    $("#selectedCourseCode").val(sender.innerHTML);
+                    $("#displaySelectedCC").html(sender.innerHTML);
+                    $("#dropConfirmation").css("display", "block");
+                }
+
+                function dropCourse() {
+                    let courseCode = $("#selectedCourseCode").val();
+                    $("#courseList").submit();
+                    $("#dropConfirmation").css("display", "none");
+                    alert(courseCode + " DROPPED");
+                }
+
+                function abort() {
+                    $("#dropConfirmation").css("display", "none");
+                }
+            </script>
+        }
+        else
+        {
+            <div class="text-danger font-weight-bold">
+                @Model.Student.FirstName, @Model.Student.LastName have not enrolled in any courses yet.
+            </div>
+        }
+        <div>
+            <a class="btn btn-secondary" asp-action="Index">
+                Return to homepage
+            </a>
+            <a class="btn btn-secondary" asp-action="Students">
+                Return to student list
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="text-danger font-weight-bold">
+            Error: student does not exist!
+        </div>
+    }
+</div>

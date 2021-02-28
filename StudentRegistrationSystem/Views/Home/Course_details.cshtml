@@ -1,0 +1,53 @@
+﻿@model CourseDetailsViewModel
+
+<div class="p-3">
+    @if (Model.Course.EnrollmentList.Count != 0)
+    {
+        <h3>Students Enrolled in @Model.Course.CourseCode</h3>
+
+        <form asp-action="Student_details_from_course_details" method="get" id="studentList">
+            <input type="hidden" asp-for="SID" id="selectedStudent" />
+            <table>
+                <thead class="text-center">
+                    <tr>
+                        <th class="pl-1 pr-1">SID</th>
+                        <th class="pl-1 pr-1">First Name</th>
+                        <th class="pl-1 pr-1">Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Course.EnrollmentList)
+                    {
+                        <tr>
+                            <td class="pl-1 pr-1"><a class="badge badge-light" href="#" onclick="submit(this)">@student.StudentNumber</a></td>
+                            <td class="pl-1 pr-1">@student.FirstName</td>
+                            <td class="pl-1 pr-1">@student.LastName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+        <script type="text/javascript">
+            // assign the selected course code as a passing parameter
+            function submit(sender) {
+                $("#selectedStudent").val(sender.innerHTML);
+                console.log("SID is: " + $("#selectedStudent").val());
+                $("#studentList").submit();
+            }
+        </script>
+    }
+    else
+    {
+        <div class="text-danger font-weight-bold">
+            There are no students enrolled in @Model.Course.CourseCode yet.
+        </div>
+    }
+    <div>
+        <a class="btn btn-secondary" asp-action="Index">
+            Return to homepage
+        </a>
+        <a class="btn btn-secondary" asp-action="Courses">
+            Return to course list
+        </a>
+    </div>
+</div>

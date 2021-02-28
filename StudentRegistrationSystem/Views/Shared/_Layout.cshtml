@@ -1,0 +1,32 @@
+﻿<!--
+    Created by: Tsz Kin Yeung
+    Date: 17 Feb
+    Usage: This system will be used to register course and students
+-->
+
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>TKY's Student Course Registration System</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="bg-dark text-white p-3">
+            <span class="navbar-brand ml-3">TKY's Student Course Registration System</span>
+        </nav>
+    </header>
+    <main class="flex-shrink-0">
+        <div class="container m-0 p-0 overflow-auto">
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container m-0">
+            <span class="text-muted">Copyright &copy; 2021 Kendrick Yeung. All Right Reserved</span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,78 @@
+﻿@model AddCourseViewModel
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+<form asp-action="AddCourse" class="col-8">
+    <h6 class="p-2">Enter the new course's information</h6>
+    @if (!Model.Repo.ErrorMessage.Equals("")) 
+    {<div class="alert-danger">@Model.Repo.ErrorMessage</div>}
+    <div class="alert-danger" asp-validation-summary="All"></div>
+    <table class="table table-borderless">
+        <tbody>
+            <tr>
+                <td><label asp-for="Course.CourseName" class="col-form-label">Course Name:</label></td>
+                <td><input asp-for="Course.CourseName" id="cname" class="form-control-sm" placeholder="Enter Course Name" /></td>
+            </tr>
+            <tr>
+                <td><label asp-for="Course.CourseCode" class="col-form-label">Course Code:</label></td>
+                <td>
+                    <div class="alert-danger" style="display:none;" id="cCodeFormat">Please enter course code in "AAAA00000" or "AAAA 00000" format</div>
+                    <input asp-for="Course.CourseCode" id="ccode" class="form-control-sm" placeholder="Enter Course Code" />
+                </td>
+            </tr>
+            <tr>
+                <td><label asp-for="Course.Credit" class="col-form-label">Course Credit</label></td>
+                <td><input asp-for="Course.Credit" type="number" min="1" max="10" value="1" class="form-control-sm" /></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="submit" class="btn btn-primary" value="Submit!" />
+                    <a class="btn btn-secondary" asp-action="Index">
+                        Return to homepage
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+
+<script type="text/javascript">
+
+    $("#cname").on("change", () => {
+        $("#cname").val($("#cname").val().substring(0, 1).toUpperCase() + $("#cname").val().substring(1));
+    });
+
+    $("#ccode").on("change", () => {
+        $("#cCodeFormat").css("display", "none");
+        let ccode = $("#ccode").val();
+
+        let hasBlankSpace = ccode.indexOf(' ') >= 0;
+        if (ccode.length >= 10 && !hasBlankSpace) {
+            $("#cCodeFormat").css("display", "block");
+            return;
+        }
+
+
+        let regex;
+        if (hasBlankSpace)
+            regex = /[a-zA-Z]{4}\s[0-9]{5}/;
+        else
+            regex = /[a-zA-Z]{4}[0-9]{5}/;
+
+        if (regex.test(ccode)) {
+            if (ccode.length == 9)
+                ccode = ccode.substring(0, 4) + " " + ccode.substring(4);
+            $("#ccode").val(ccode.toUpperCase());
+        }
+        else
+            $("#cCodeFormat").css("display", "block");
+    });
+</script>

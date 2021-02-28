@@ -1,0 +1,77 @@
+﻿@model RegFormViewModel
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+<div class="p-3">
+    @if (Model.Repo.Courses != null && Model.Repo.Courses.Count != 0)
+    {
+        <form asp-action="RegForm" method="post" class="col-8">
+            <h6 class="p-2">Enter your information</h6>
+            @if (!Model.Repo.ErrorMessage.Equals(""))
+            {<div class="alert-danger">@Model.Repo.ErrorMessage</div>}
+            <div class="alert-danger" asp-validation-summary="All"></div>
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td><label asp-for="Response.FirstName" class="col-form-label">First Name:</label></td>
+                        <td><input asp-for="Response.FirstName" id="fname" class="form-control-sm" placeholder="Enter First Name" /></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Response.LastName" class="col-form-label">Last Name:</label></td>
+                        <td><input asp-for="Response.LastName" id="lname" class="form-control-sm" placeholder="Enter Last Name" /></td>
+                    </tr>
+                    <tr>
+                        <td><label class="col-form-label">Course:</label></td>
+                        <td>
+                            <select asp-for="Response.SelectedCourseCode" class="form-control-sm">
+                                <option value="" disabled selected>Choose an Course</option>
+                                @foreach (var course in Model.Repo.Courses)
+                                {
+                                    <option value="@course.CourseCode">@course.CourseName</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Response.StudentNumber" class="col-form-label">Student Number:</label></td>
+                        <td><input asp-for="Response.StudentNumber" type="number" min="0" class="form-control-sm" placeholder="Enter Student Number" /></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btn btn-primary" value="Submit!" />
+                            <a class="btn btn-secondary" asp-action="Index">
+                                Return to homepage
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    }
+    else
+    {
+        <div class="text-danger font-weight-bold">
+            There are no courses yet
+        </div>
+        <a class="btn btn-secondary" asp-action="Index">
+            Return to homepage
+        </a>
+    }
+</div>
+
+<script type="text/javascript">
+    $("#fname").on("change", () => {
+        $("#fname").val($("#fname").val().substring(0, 1).toUpperCase() + $("#fname").val().substring(1));
+    });
+
+    $("#lname").on("change", () => {
+        $("#lname").val($("#lname").val().substring(0, 1).toUpperCase() + $("#lname").val().substring(1));
+    });
+</script>
